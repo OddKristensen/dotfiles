@@ -65,7 +65,7 @@ whichKey.register({
     -- d = { vim.lsp.buf.definition, 'Go to definition' },
     d = { telescope.lsp_definitions, 'Go to definition' },
     -- r = { vim.lsp.buf.references, 'Go to references' },
-    r = { telescope.lsp_references, 'Go to references' },
+    r = { telescope.lsp_references, 'Go to references', },
     i = { telescope.lsp_implementations, 'Go to implementation' },
     -- i = { vim.lsp.buf.implementation, 'Go to implementation' },
     c = { vim.lsp.buf.hover, 'Characterize type at cursor' },
