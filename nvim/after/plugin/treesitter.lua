@@ -34,4 +34,12 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      node_incremental = "<BS>",
+      node_decremental = "<S-BS>",
+      scope_incremental = "<C-H>", -- <C-BS> reads as <C-H> (in WezTerm, at least)
+    },
+  },
 }
