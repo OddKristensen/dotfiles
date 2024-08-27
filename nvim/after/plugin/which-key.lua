@@ -117,6 +117,7 @@ whichKey.register({
     name = 'git/Neogit',
     g = { command('G'), 'Fugitive status' },
   },
+  j = { telescope.jumplist, '(J)ump list' },
   --[[
   m = {
     name = 'metals and other lsp stuff',
