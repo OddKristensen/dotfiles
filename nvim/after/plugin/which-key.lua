@@ -170,9 +170,10 @@ whichKey.register({
   },
   s = {
     name = 'search',
-    s = { telescope.current_buffer_fuzzy_find, 'Search in current buffer' },
-    c = { ':noh', 'Clear search highlight' },
+    c = { command('noh'), 'Clear search highlight' },
+    h = { telescope.search_history, 'Searrch (H)istory' },
     r = { telescope.resume, 'Resume the most recent search picker' },
+    s = { telescope.current_buffer_fuzzy_find, 'Search in current buffer' },
     -- S = { telescope.grep_string, 'Search for word under cursor', },
   },
   z = {
