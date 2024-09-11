@@ -99,7 +99,8 @@ whichKey.register({
       end,
       'File browser (telescope)',
     },
-    s = { telescope.current_buffer_fuzzy_find, 'Searc', },
+    s = { telescope.current_buffer_fuzzy_find, 'Search', },
+    ['='] = { vim.lsp.buf.format, 'Format the current buffer' },
   },
   g = {
     name = 'git/version control',
@@ -176,6 +177,7 @@ whichKey.register({
     s = { telescope.current_buffer_fuzzy_find, 'Search in current buffer' },
     -- S = { telescope.grep_string, 'Search for word under cursor', },
   },
+  t = { command('terminal'), '(T)erminal' },
   z = {
     name = '[Z]ystem (because I would never use it)',
     p = { command('PackerSync'), 'PackerSync', },

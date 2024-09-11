@@ -39,3 +39,6 @@ vim.keymap.set("i", "<A-Up>", "<Esc>{i")
 vim.api.nvim_set_keymap("i", "<C-/>", '<Cmd>execute "CommentToggle"<CR>', {})
 vim.api.nvim_set_keymap("v", "<C-/>", '<Cmd>execute "\'<,\'>CommentToggle"<CR>', {})
 -- vim.keymap.set("vb", "<C-/>", "'<,'>CommentToggle")
+
+-- Escape exits terminal mode
+vim.keymap.set('t', '<ESC>', [[<C-\><C-n>]])
