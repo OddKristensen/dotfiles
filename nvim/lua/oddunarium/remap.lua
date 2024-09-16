@@ -22,14 +22,14 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- Resize split
-vim.keymap.set('n', '<A-[>', '<c-w>5<')
-vim.keymap.set('n', '<A-]>', '<c-w>5>')
-vim.keymap.set('n', '<A-t>', '<C-W>5+')
-vim.keymap.set('n', '<A-s>', '<C-W>5-')
+vim.keymap.set('n', '<A-S-Left>', '5<c-w><')
+vim.keymap.set('n', '<A-S-Right>', '5<c-w>>')
+vim.keymap.set('n', '<A-S-Up>', '5<C-W>+')
+vim.keymap.set('n', '<A-S-Down>', '5<C-W>-')
 
 -- Alt plus the arrows jumps around
 vim.keymap.set("n", "<A-Right>", "e")
-vim.keymap.set("n", "<A-Left>", "b")
+-- vim.keymap.set("n", "<A-Left>", "b")
 vim.keymap.set("i", "<A-Right>", "<Esc>ea")
 vim.keymap.set("i", "<A-Left>", "<Esc>bi")
 vim.keymap.set("i", "<A-Down>", "<Esc>}a")
