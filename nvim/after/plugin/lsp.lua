@@ -32,5 +32,5 @@ end)
 
 lsp.setup()
 
-lspconfig.tsserver.setup({})
+lspconfig.ts_ls.setup({})
 
