@@ -1,7 +1,7 @@
 local whichKey = require("which-key")
 local telescope = require('telescope.builtin')
 local telescopeBase = require('telescope')
-local attempt = require('attempt')
+-- local attempt = require('attempt')
 local neogit = require('neogit')
 
 local tableLength = function (t)
@@ -31,173 +31,134 @@ local command = function (command)
   return function() vim.cmd(command) end
 end
 
-whichKey.register({
-  ['1'] = { switchWindowLambda(1), 'First window', },
-  ['2'] = { switchWindowLambda(2), 'Second window', },
-  ['3'] = { switchWindowLambda(3), 'Third window', },
-  ['4'] = { switchWindowLambda(4), 'Fourth window', },
-  ['5'] = { switchWindowLambda(5), 'Fifth window', },
-  ['6'] = { switchWindowLambda(6), 'Sixth window', },
-  ['7'] = { switchWindowLambda(7), 'Seventh window', },
-  ['8'] = { switchWindowLambda(8), 'Eight window', },
-  ['9'] = { switchWindowLambda(9), 'Ninth window', },
-  b = {
-    name = 'buffer',
-    b = { telescope.buffers, 'Buffers' },
-    d = { command('bd'), 'Delete current buffer' },
-    f = { telescope.oldfiles, 'Files' },
-    s = { command('vnew'), '(s)cratch up a new buffer vertically' },
-    S = { command('new'), '(S)cratch up a new buffer horizontally' },
-    t = {
-      name = 'temporary',
-      n = { attempt.new_select, 'New buffer' },
-      N = { attempt.new_input_ext, 'New buffer with extenstion' },
-      r = { attempt.rename_buf, 'Rename temporary buffer' },
-      l = {
-        function() vim.cmd('Telescope attempt') end,
-        'List temporary buffers',
-      },
-      -- l = { attempt.open_select, 'List temporary buffers' },
-    },
-  },
-  c = {
-    name = 'code',
-    -- d = { vim.lsp.buf.definition, 'Go to definition' },
-    d = { telescope.lsp_definitions, 'Go to definition' },
-    -- r = { vim.lsp.buf.references, 'Go to references' },
-    r = { telescope.lsp_references, 'Go to references', },
-    i = { telescope.lsp_implementations, 'Go to implementation' },
-    -- i = { vim.lsp.buf.implementation, 'Go to implementation' },
-    c = { vim.lsp.buf.hover, 'Characterize type at cursor' },
-    s = { telescope.lsp_document_symbols, 'Symbols in file' },
-    t = { vim.lsp.buf.signature_help, 'Type signature at cursor' },
-    f = { vim.lsp.buf.format, 'Format' },
-    a = { vim.lsp.buf.code_action, 'Code action' },
-    n = { vim.lsp.buf.rename, 'Rename symbol at cursor', },
-    m = { telescopeBase.extensions.metals.commands, 'Metals commands' },
-    w = { telescope.lsp_dynamic_workspace_symbols, 'Workspace symbols' },
-    ['>'] = { telescope.lsp_incoming_calls, 'Incoming calls' },
-    ['<'] = { telescope.lsp_outgoing_calls, 'Outgoing calls' },
-  },
-  e = {
-    name = 'error',
-    e = { vim.diagnostic.open_float, 'Error' },
-    n = { vim.diagnostic.goto_next, 'Next error', },
-    p = { vim.diagnostic.goto_prev, 'Previous error' },
-    l = { telescope.diagnostics, 'List all errors' },
-  },
-  f = {
-    name = 'file',
-    F = { command('Oil'), 'File browser (oil)' },
-    f = {
-      -- telescopeBase.extensions.file_browser.file_browser,
-      function()
-        telescopeBase.extensions.file_browser.file_browser {
-          path = '%:p:h',
-          select_buffer = true,
-        }
-      end,
-      'File browser (telescope)',
-    },
-    s = { telescope.current_buffer_fuzzy_find, 'Search', },
-    ['='] = { vim.lsp.buf.format, 'Format the current buffer' },
-  },
-  g = {
-    name = 'git/version control',
-    g = { neogit.open, 'status', },
-    s = { telescope.git_status, 'Status' },
-    L = { telescope.git_bcommits, 'Log for buffer' },
-    l = { telescope.git_commits, 'Log for project' },
-    b = { telescope.git_branches, 'Branches' },
-    p = { command('G pull -r'), 'Pull', },
-    f = { command('G fetch'), 'Fetch', },
-    a = { command('G add -u'), 'Add', },
-    A = { command('G add -A'), 'Add all', },
-  },
-  G = {
-    name = 'git/Neogit',
-    g = { command('G'), 'Fugitive status' },
-  },
-  j = { telescope.jumplist, '(J)ump list' },
-  --[[
-  m = {
-    name = 'metals and other lsp stuff',
-    s = {
-      function ()
-        vim.cmd('Metals')
-      end,
-      'stop server'
-    },
-    i = {
-      function ()
+whichKey.add({
 
-      end,
-      'import build',
-    },
-    d = {
-      function ()
+  { '<leader>1', switchWindowLambda(1), desc = 'First window' },
+  { '<leader>2', switchWindowLambda(2), desc = 'Second window' },
+  { '<leader>3', switchWindowLambda(3), desc = 'Third window' },
+  { '<leader>4', switchWindowLambda(4), desc = 'Fourth window' },
+  { '<leader>5', switchWindowLambda(5), desc = 'Fifth window' },
+  { '<leader>6', switchWindowLambda(6), desc = 'Sixth window' },
+  { '<leader>7', switchWindowLambda(7), desc = 'Seventh window' },
+  { '<leader>8', switchWindowLambda(8), desc = 'Eight window' },
+  { '<leader>9', switchWindowLambda(9), desc = 'Ninth window' },
 
-      end,
-      'doctor',
-    },
-    r = {
-      function ()
 
-      end,
-      'restart build server',
-    },
+  { '<leader>b', group = 'buffer' },
+  { '<leader>bb', telescope.buffers, desc = 'Buffers' },
+  { '<leader>bd', command('bd'), desc = 'Delete current buffer' },
+  { '<leader>bf', telescope.oldfiles, desc = 'Files' },
+  { '<leader>bs', command('vnew'), desc = '(s)cratch up a new buffer vertically' },
+  { '<leader>bS', command('new'), desc = '(S)cratch up a new buffer horizontally' },
+
+
+  { '<leader>c', group = 'code' },
+  { '<leader>cd', telescope.lsp_definitions, desc = 'Go to definition' },
+  { '<leader>cr', telescope.lsp_references, desc = 'Go to references' },
+  { '<leader>ci', telescope.lsp_implementations, desc = 'Go to implementation' },
+  { '<leader>cc', vim.lsp.buf.hover, desc = 'Characterize type at cursor' },
+  { '<leader>cs', telescope.lsp_document_symbols, desc = 'Symbols in file' },
+  { '<leader>ct', vim.lsp.buf.signature_help, desc = 'Type signature at cursor' },
+  { '<leader>cf', vim.lsp.buf.format, desc = 'Format' },
+  { '<leader>ca', vim.lsp.buf.code_action, desc = 'Code action' },
+  { '<leader>cn', vim.lsp.buf.rename, desc = 'Rename symbol at cursor' },
+  { '<leader>cm', telescopeBase.extensions.metals.commands, desc = 'Metals commands' },
+  { '<leader>cw', telescope.lsp_dynamic_workspace_symbols, desc = 'Workspace symbols' },
+  { '<leader>c>', telescope.lsp_incoming_calls, desc = 'Incoming calls' },
+  { '<leader>c<', telescope.lsp_outgoing_calls, desc = 'Outgoing calls' },
+
+
+  { '<leader>e', group = 'error'  },
+  { '<leader>ee', vim.diagnostic.open_float, desc = 'Error' },
+  { '<leader>en', vim.diagnostic.goto_next, desc = 'Next error' },
+  { '<leader>ep', vim.diagnostic.goto_prev, desc = 'Previous error' },
+  { '<leader>el', telescope.diagnostics, desc = 'List all errors' },
+
+
+  { '<leader>f', group = 'file' },
+  { '<leader>fF', command('Oil'), desc = 'File browser (oil)' },
+  {
+    '<leader>ff',
+    function()
+      telescopeBase.extensions.file_browser.file_browser {
+        path = '%:p:h',
+        select_buffer = true,
+      }
+    end,
+    desc = 'File browser (telescope)',
   },
-  --]]
-  p = {
-    name = "project",
-    f = { telescope.find_files, "Find files" },
-    s = { telescope.live_grep, "Search in files" },
-    S = { telescope.grep_string, 'Search for word under cursor', },
-    -- S = { ?, 'Search project for word under cursor'}
-    c = { telescope.grep_string, 'Search for word under cursor' },
-    g = { telescope.git_files, "Search git repo" },
-    v = { vim.cmd.Ex, "Visually do things" },
-    p = {
-      function()
-        telescopeBase.extensions.project.project { display_type = 'full' }
-      end,
-      'Switch project' ,
-    },
+  { '<leader>fs', telescope.current_buffer_fuzzy_find, desc = 'Search' },
+  { '<leader>f=', vim.lsp.buf.format, desc = 'Format the current buffer' },
+
+
+  { '<leader>g', desc = 'git/version control' },
+  { '<leader>gg', neogit.open, desc = 'status' },
+  { '<leader>gs', telescope.git_status, desc = 'Status' },
+  { '<leader>gL', telescope.git_bcommits, desc = 'Log for buffer' },
+  { '<leader>gl', telescope.git_commits, desc = 'Log for project' },
+  { '<leader>gb', telescope.git_branches, desc = 'Branches' },
+  { '<leader>gp', command('G pull -r'), desc = 'Pull' },
+  { '<leader>gf', command('G fetch'), desc = 'Fetch' },
+  { '<leader>ga', command('G add -u'), desc = 'Add' },
+  { '<leader>gA', command('G add -A'), desc = 'Add all' },
+
+
+  { '<leader>G', group = 'git/Fugitive' },
+  { '<leader>Gg', command('G'), desc = 'Fugitive status' },
+
+
+  { '<leader>j', telescope.jumplist, desc = '(J)ump list' },
+
+
+  { '<leader>p', group = '(p)roject' },
+  { '<leader>pf', telescope.find_files, desc = "Find files" },
+  { '<leader>ps', telescope.live_grep, desc = "Search in files" },
+  { '<leader>pS', telescope.grep_string, desc = 'Search for word under cursor' },
+  { '<leader>pc', telescope.grep_string, desc = 'Search for word under cursor' },
+  { '<leader>pg', telescope.git_files, desc = "Search git repo" },
+  { '<leader>pv', vim.cmd.Ex, desc = "Visually do things" },
+  {
+    '<leader>pp',
+    function()
+      telescopeBase.extensions.project.project { display_type = 'full' }
+    end,
+    desc = 'Switch project' ,
   },
-  q = {
-    name = "quit",
-    q = { command("qa"), "Quit neovim", },
-    Q = { command("qa!"), "Quit neovim forcefully", },
-  },
-  s = {
-    name = 'search',
-    c = { command('noh'), 'Clear search highlight' },
-    h = { telescope.search_history, 'Searrch (H)istory' },
-    r = { telescope.resume, 'Resume the most recent search picker' },
-    s = { telescope.current_buffer_fuzzy_find, 'Search in current buffer' },
-    -- S = { telescope.grep_string, 'Search for word under cursor', },
-  },
-  t = { command('terminal'), '(T)erminal' },
-  z = {
-    name = '[Z]ystem (because I would never use it)',
-    p = { command('PackerSync'), 'PackerSync', },
-    t = { command('TSUpdate'),  'TSUpdate', },
-  }
-}, { prefix = "<leader>" })
-whichKey.register({
-  -- Buffer
-  -- Window
-  ['<leader>w'] = { name = 'window' },
-  ['<leader>w3'] = { '<C-W>v<C-W>v', 'Split into 3 columns' },
-  ['<leader>w|'] = { '<C-W>v', 'Split vertically' },
-  ['<leader>w/'] = { '<C-W>v', 'Split vertically' },
-  ['<leader>w-'] = { '<C-W>s', 'Split horizontally' },
-  ['<leader>w<Up>'] = { '<C-W>k', 'Go to upper window' },
-  ['<leader>w<Down>'] = { '<C-W>j', 'Go to lower window' },
-  ['<leader>w<Left>'] = { '<C-W>h', 'Go to left window' },
-  ['<leader>w<Right>'] = { '<C-W>l', 'Go to right window' },
-  ['<leader>wd'] = { '<C-W>q', 'Delete window' },
-  -- ['<leader>w1'] = { function() vim.cmd(':only') end, 'Unify all windows' },
-  ['<leader>wu'] = { command(':only'), 'Unify all windows' },
-  ['<leader>w='] = { '<C-W>=', 'Re-Balence all windows to have equal width and height' },
+
+
+  { '<leader>q', group = '(q)uit' },
+  { '<leader>qq', command("qa"), desc = "Quit neovim" },
+  { '<leader>qQ', command("qa!"), desc = "Quit neovim forcefully" },
+
+
+  { '<leader>s', group = 'search' },
+  { '<leader>sc', command('noh'), desc = 'Clear search highlight' },
+  { '<leader>sh', telescope.search_history, desc = 'Searrch (H)istory' },
+  { '<leader>sr', telescope.resume, desc = 'Resume the most recent search picker' },
+  { '<leader>ss', telescope.current_buffer_fuzzy_find, desc = 'Search in current buffer' },
+
+
+  { '<leader>t', command('terminal'), desc = '(t)erminal' },
+
+
+
+  { '<leader>z', group = '[Z]ystem (because I would never use it)' },
+  { '<leader>zp', command('PackerSync'), desc = 'PackerSync' },
+  { '<leader>zt', command('TSUpdate'), desc =  'TSUpdate' },
+
+
+  { '<leader>w', group = 'window' },
+  { '<leader>w3', '<C-W>v<C-W>v', desc = 'Split into 3 columns' },
+  { '<leader>w|', '<C-W>v', desc = 'Split vertically' },
+  { '<leader>w/', '<C-W>v', desc = 'Split vertically' },
+  { '<leader>w-', '<C-W>s', desc = 'Split horizontally' },
+  { '<leader>w<Up>', '<C-W>k', desc = 'Go to upper window' },
+  { '<leader>w<Down>', '<C-W>j', desc = 'Go to lower window' },
+  { '<leader>w<Left>', '<C-W>h', desc = 'Go to left window' },
+  { '<leader>w<Right>', '<C-W>l', desc = 'Go to right window' },
+  { '<leader>wd', '<C-W>q', desc = 'Delete window' },
+  { '<leader>w1', function() vim.cmd(':only') end, desc = 'Unify all windows' },
+  { '<leader>wu', command(':only'), desc = 'Unify all windows' },
+  { '<leader>w=', '<C-W>=', desc = 'Re-Balence all windows to have equal width and height' },
+
 })
