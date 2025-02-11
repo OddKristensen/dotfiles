@@ -32,11 +32,11 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-vibrant)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type :relative)
+(setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -76,11 +76,41 @@
 ;; they are implemented.
 
 
-;; MY STUFF
+;; Make the frame maximally large on startup
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-(after! projectile
-  (setq projectile-project-search-path '("~/projects"))
-  )
+(setq projectile-project-search-path '("~/projects"))
 
-;; start the initial frame maximized
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(setq-default tab-width 2)
+
+(setq fill-column 80)
+(add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+
+(setq scroll-margin 8)
+
+(map! :leader
+      ;; Already bound to `SPC w N'
+      "1" #'winum-select-window-1
+      "2" #'winum-select-window-2
+      "3" #'winum-select-window-3
+      "4" #'winum-select-window-4
+      "5" #'winum-select-window-5
+      "6" #'winum-select-window-6
+      "7" #'winum-select-window-7
+      "w/" #'split-window-right
+      "w-" #'split-window-below
+      "ee" #'+default/diagnostics
+      "en" #'flycheck-next-error
+      "ep" #'flycheck-previous-error
+      ;; "el" #'+default/diagnostics
+      "cn" #'lsp-rename
+      "cr" #'lsp-find-references
+      "c=" #'lsp-format-buffer
+      "ch" #'lsp-ui-doc-show
+      ;; "cT" #'lsp-type
+      ;;
+      "sc" #'evil-ex-nohighlight
+
+      ;; "wu" #'evil-command-window-execute
+      ;; "wU" #'winner-undo
+      )
