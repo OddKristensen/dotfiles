@@ -3,6 +3,7 @@ local telescope = require('telescope.builtin')
 local telescopeBase = require('telescope')
 -- local attempt = require('attempt')
 local neogit = require('neogit')
+local gitsigns = require('gitsigns')
 
 local tableLength = function (t)
   local count = 0
@@ -31,6 +32,31 @@ local command = function (command)
   return function() vim.cmd(command) end
 end
 
+local showTempFiles = function ()
+  telescopeBase.extensions.file_browser.file_browser {
+    path = '~/.temps',
+    select_buffer = true,
+  }
+end
+
+local findFileInProject = function ()
+  -- get directories in projects
+  -- choose project
+  -- call find_files with path of project
+  local project = vim.ui.select(
+    {'tabs', 'spaces'},
+    {
+      prompt = 'Foo: ',
+      format_item = function (item)
+        return 'Hmmmm ' .. item
+      end,
+    },
+    function (choice)
+      print(choice)
+    end
+  )
+end
+
 whichKey.add({
 
   { '<leader>1', switchWindowLambda(1), desc = 'First window' },
@@ -48,8 +74,10 @@ whichKey.add({
   { '<leader>bb', telescope.buffers, desc = 'Buffers' },
   { '<leader>bd', command('bd'), desc = 'Delete current buffer' },
   { '<leader>bf', telescope.oldfiles, desc = 'Files' },
+  { '<leader>bl', showTempFiles, desc = "(L)ist temp files" },
   { '<leader>bs', command('vnew'), desc = '(s)cratch up a new buffer vertically' },
   { '<leader>bS', command('new'), desc = '(S)cratch up a new buffer horizontally' },
+  { '<leader>bT', command('enew'), desc = "New (T)emp buffer" },
 
 
   { '<leader>c', group = 'code' },
@@ -88,6 +116,7 @@ whichKey.add({
     desc = 'File browser (telescope)',
   },
   { '<leader>fs', telescope.current_buffer_fuzzy_find, desc = 'Search' },
+  { '<leader>ft', showTempFiles, desc = "(T)emp files" },
   { '<leader>f=', vim.lsp.buf.format, desc = 'Format the current buffer' },
 
 
@@ -97,10 +126,16 @@ whichKey.add({
   { '<leader>gL', telescope.git_bcommits, desc = 'Log for buffer' },
   { '<leader>gl', telescope.git_commits, desc = 'Log for project' },
   { '<leader>gb', telescope.git_branches, desc = 'Branches' },
-  { '<leader>gp', command('G pull -r'), desc = 'Pull' },
-  { '<leader>gf', command('G fetch'), desc = 'Fetch' },
-  { '<leader>ga', command('G add -u'), desc = 'Add' },
-  { '<leader>gA', command('G add -A'), desc = 'Add all' },
+  { '<leader>gp', command('!git pull -r'), desc = 'Pull' },
+  { '<leader>gf', command('!git fetch'), desc = 'Fetch' },
+  { '<leader>ga', command('!git add -u'), desc = 'Add' },
+  { '<leader>gA', command('!git add -A'), desc = 'Add all' },
+  { '<leader>gh', desc = 'Git (h)unk'},
+  { '<leader>ghn', function() gitsigns.nav_hunk('next') end, desc = '(n)ext hunk' },
+  { '<leader>ghp', function() gitsigns.nav_hunk('prev') end, desc = '(p)revious hunk' },
+  { '<leader>ghd', gitsigns.reset_hunk, desc = '(d)elete hunk' },
+  { '<leader>ghd', gitsigns.reset_hunk, desc = '(D)elete whole buffer' },
+  { '<leader>ghh', gitsigns.preview_hunk, desc = '(p)review hunk' },
 
 
   { '<leader>G', group = 'git/Fugitive' },
@@ -112,6 +147,7 @@ whichKey.add({
 
   { '<leader>p', group = '(p)roject' },
   { '<leader>pf', telescope.find_files, desc = "Find files" },
+  { '<leader>pF', findFileInProject, desc = "Find files in selected project" },
   { '<leader>ps', telescope.live_grep, desc = "Search in files" },
   { '<leader>pS', telescope.grep_string, desc = 'Search for word under cursor' },
   { '<leader>pc', telescope.grep_string, desc = 'Search for word under cursor' },
@@ -138,7 +174,14 @@ whichKey.add({
   { '<leader>ss', telescope.current_buffer_fuzzy_find, desc = 'Search in current buffer' },
 
 
-  { '<leader>t', command('terminal'), desc = '(t)erminal' },
+  { '<leader>T', command('terminal'), desc = '(T)erminal' },
+  { '<leader>t', group = '(t)ab' },
+  { '<leader>t<Left>', 'gT', desc = 'Previous Tab' },
+  { '<leader>t<Right>', 'gt', desc = 'Next Tab' },
+  { '<leader>t1', '1gt', desc = 'First Tab' },
+  { '<leader>t2', '2gt', desc = 'Second Tab' },
+  { '<leader>t3', '3gt', desc = 'Third Tab' },
+  { '<leader>tq', command('tabclose'), desc = '(q)uit tab' },
 
 
 
@@ -161,4 +204,10 @@ whichKey.add({
   { '<leader>wu', command(':only'), desc = 'Unify all windows' },
   { '<leader>w=', '<C-W>=', desc = 'Re-Balence all windows to have equal width and height' },
 
+
+  { '<leader>W', group = "(W)indow" },
+  { '<leader>W<Left>', 20 .. '<C-w><', desc = 'Shrink window horizontally' },
+  { '<leader>W<Right>', 20 .. '<C-w>>', desc = 'Widen window horizontally' },
+  { '<leader>W<Up>', 10 .. '<C-w>+', desc = 'Grow window vertically' },
+  { '<leader>W<Down>', 10 .. '<C-w>-', desc = 'Shrink window vertically' },
 })

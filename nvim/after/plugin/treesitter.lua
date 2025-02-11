@@ -13,6 +13,7 @@ require'nvim-treesitter.configs'.setup {
     "vim",
     "vimdoc",
     "yaml",
+    "dockerfile",
   },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)

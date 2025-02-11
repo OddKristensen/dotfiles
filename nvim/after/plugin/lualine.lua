@@ -1,4 +1,4 @@
-local window = { 'windows', mode = 1, max_length = 1, } 
+local window = { 'windows', mode = 1, max_length = 1, }
 
 require('lualine').setup({
   options = {
@@ -9,6 +9,8 @@ require('lualine').setup({
   },
   sections = {
     lualine_a = { window, 'mode', },
+    -- Show the full(er) path when the window is active
+    lualine_c = { {'filename', path = 1} },
     lualine_y = { 'searchcount', 'progress', },
   },
   inactive_sections = {

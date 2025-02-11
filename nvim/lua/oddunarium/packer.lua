@@ -30,12 +30,15 @@ return require('packer').startup(function(use)
 
   use(
     'nvim-treesitter/nvim-treesitter',
-    { run = ':TSUpdate', }
+    {
+      run = ':TSUpdate',
+      build = ':TSUpdate',
+    }
   )
   -- use('nvim-treesitter/playground')
   -- use('ThePrimeagen/harpoon')
-  use('mbbill/undotree')
-  use('tpope/vim-fugitive')
+  -- use('mbbill/undotree')
+  -- use('tpope/vim-fugitive')
 
   use {
     "williamboman/mason.nvim",
@@ -102,12 +105,12 @@ return require('packer').startup(function(use)
 
   use { 'nvim-lualine/lualine.nvim', }
 
-  use { 'terrortylor/nvim-comment' }
+  -- use { 'terrortylor/nvim-comment' }
 
-  use {
-    'm-demare/attempt.nvim',
-    requires = 'nvim-lua/plenary.nvim',
-  }
+  -- use {
+  --   'm-demare/attempt.nvim',
+  --   requires = 'nvim-lua/plenary.nvim',
+  -- }
 
   use {
     'NeogitOrg/neogit',
@@ -115,7 +118,7 @@ return require('packer').startup(function(use)
     -- tag = 'v0.0.1',
   }
 
-  use { 'numToStr/Comment.nvim', }
+  -- use { 'numToStr/Comment.nvim', }
 
   use { 'tzachar/local-highlight.nvim', }
 
@@ -128,16 +131,18 @@ return require('packer').startup(function(use)
   use({
     "kylechui/nvim-surround",
     tag = "*",   -- Use for stability; omit to use `main` branch for the latest features
-    config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
-      })
-    end
+    -- config = function()
+    --   require("nvim-surround").setup({
+    --     -- Configuration here, or leave empty to use defaults
+    --   })
+    -- end
   })
 
   -- use({'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'})
   --
   use({ "stevearc/oil.nvim" })
+
+  use({ 'lewis6991/gitsigns.nvim' })
 
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 

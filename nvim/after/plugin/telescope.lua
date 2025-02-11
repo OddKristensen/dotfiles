@@ -67,11 +67,10 @@ telescope.setup {
     layout_strategy = 'vertical',
   },
   extensions = {
+    fzf = {},
     project = {
       base_dirs = {
         '~/projects',
-        '~/.config',
-        '~/Documents/book',
       },
       theme = 'dropdown',
     },
@@ -89,7 +88,7 @@ telescope.setup {
 }
 
 -- Previews for all temporary buffers
-telescope.load_extension('attempt')
+-- telescope.load_extension('attempt')
 
 -- Use different sorter
 telescope.load_extension('fzf')

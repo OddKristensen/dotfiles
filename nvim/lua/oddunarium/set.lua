@@ -28,8 +28,12 @@ vim.g.mapleader = " "
 
 vim.g.gitcommit_summary_length = 72
 
+-- vim.cmd([[
+--     autocmd FileType scala,sbt setlocal commentstring=//\ %s
+-- ]])
+
 vim.cmd([[
-    autocmd FileType scala,sbt setlocal commentstring=//\ %s
+    autocmd FileType sql setlocal commentstring=--\ %s
 ]])
 
 -- Use the system clipboard by default
