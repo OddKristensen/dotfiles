@@ -146,7 +146,9 @@ return require('packer').startup(function(use)
 
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
-    if packer_bootstrap then
-      require('packer').sync()
-    end
+  use('simrat39/rust-tools.nvim')
+
+  if packer_bootstrap then
+    require('packer').sync()
+  end
 end)
