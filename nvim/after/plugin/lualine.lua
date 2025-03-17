@@ -12,6 +12,7 @@ require('lualine').setup({
     -- Show the full(er) path when the window is active
     lualine_c = { {'filename', path = 1} },
     lualine_y = { 'searchcount', 'progress', },
+    lualine_x = { 'filetype' },
   },
   inactive_sections = {
     lualine_a = { window },
