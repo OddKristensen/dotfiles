@@ -20,6 +20,8 @@ return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
+  use('nvim-tree/nvim-web-devicons')
+
   use {
     'nvim-telescope/telescope.nvim', tag = '0.1.3',
     -- or                            , branch = '0.1.x',
@@ -145,6 +147,11 @@ return require('packer').startup(function(use)
   use({ 'lewis6991/gitsigns.nvim' })
 
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
+  use {
+    'folke/todo-comments.nvim',
+    require = 'nvim-lua/plenary.nvim',
+  }
 
   use('simrat39/rust-tools.nvim')
 

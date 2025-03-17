@@ -4,6 +4,8 @@ local telescopeBase = require('telescope')
 -- local attempt = require('attempt')
 local neogit = require('neogit')
 local gitsigns = require('gitsigns')
+local find_in_project = require('find_in_project')
+local pre_filter_symbols = require('pre_filter_symbols')
 
 local tableLength = function (t)
   local count = 0
@@ -39,24 +41,6 @@ local showTempFiles = function ()
   }
 end
 
-local findFileInProject = function ()
-  -- get directories in projects
-  -- choose project
-  -- call find_files with path of project
-  local project = vim.ui.select(
-    {'tabs', 'spaces'},
-    {
-      prompt = 'Foo: ',
-      format_item = function (item)
-        return 'Hmmmm ' .. item
-      end,
-    },
-    function (choice)
-      print(choice)
-    end
-  )
-end
-
 whichKey.add({
 
   { '<leader>1', switchWindowLambda(1), desc = 'First window' },
@@ -86,6 +70,11 @@ whichKey.add({
   { '<leader>ci', telescope.lsp_implementations, desc = 'Go to implementation' },
   { '<leader>cc', vim.lsp.buf.hover, desc = 'Characterize type at cursor' },
   { '<leader>cs', telescope.lsp_document_symbols, desc = 'Symbols in file' },
+  {
+    '<leader>cS',
+    function () pre_filter_symbols.pre_filter_symbols() end,
+    desc = 'Pre filtered Symbols in file',
+  },
   { '<leader>ct', vim.lsp.buf.signature_help, desc = 'Type signature at cursor' },
   { '<leader>cf', vim.lsp.buf.format, desc = 'Format' },
   { '<leader>ca', vim.lsp.buf.code_action, desc = 'Code action' },
@@ -144,10 +133,17 @@ whichKey.add({
 
   { '<leader>j', telescope.jumplist, desc = '(J)ump list' },
 
+  { '<leader>n', group = '(n)umber' },
+  { '<leader>ni', '<C-a>', desc = 'Increment number' },
+  { '<leader>nd', '<C-x>', desc = 'Decrement number' },
 
   { '<leader>p', group = '(p)roject' },
   { '<leader>pf', telescope.find_files, desc = "Find files" },
-  { '<leader>pF', findFileInProject, desc = "Find files in selected project" },
+  {
+    '<leader>pF',
+    function() find_in_project.find_in_project() end,
+    desc = "Find files in selected project",
+  },
   { '<leader>ps', telescope.live_grep, desc = "Search in files" },
   { '<leader>pS', telescope.grep_string, desc = 'Search for word under cursor' },
   { '<leader>pc', telescope.grep_string, desc = 'Search for word under cursor' },
@@ -181,7 +177,10 @@ whichKey.add({
   { '<leader>t1', '1gt', desc = 'First Tab' },
   { '<leader>t2', '2gt', desc = 'Second Tab' },
   { '<leader>t3', '3gt', desc = 'Third Tab' },
+  { '<leader>tp', 'gT', desc = '(p)revious Tab' },
+  { '<leader>tn', 'gt', desc = '(n)ext tabl' },
   { '<leader>tq', command('tabclose'), desc = '(q)uit tab' },
+  { '<leader>tt', command('tabnew'), desc = 'New (t)ab' },
 
 
 
