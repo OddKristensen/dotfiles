@@ -41,6 +41,13 @@ return require('packer').startup(function(use)
   -- use('ThePrimeagen/harpoon')
   -- use('mbbill/undotree')
   -- use('tpope/vim-fugitive')
+  use {
+    'akinsho/git-conflict.nvim',
+    tag = "*",
+    -- config = function()
+    --   require('git-conflict').setup()
+    -- end
+  }
 
   use {
     "williamboman/mason.nvim",

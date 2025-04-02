@@ -111,6 +111,14 @@ whichKey.add({
 
 
   { '<leader>g', desc = 'git/version control' },
+  { '<leader>gc', desc = '(c)onflict' },
+  { '<leader>gcn', command('GitConflictNextConflict'), desc = '(n)ext conflict' },
+  { '<leader>gcp', command('GitConflictPrevConflict'), desc = '(p)revious conflict' },
+  { '<leader>gcm', command('GitConflictChooseOurs'), desc = '(m)y conflict' },
+  { '<leader>gct', command('GitConflictChooseTheirs'), desc = '(t)heir conflict' },
+  { '<leader>gcb', command('GitConflictChooseBoth'), desc = '(b)oth confclits' },
+  { '<leader>gcd', command('GitConflictChooseNone'), desc = '(n)either conflict' },
+  { '<leader>gcq', command('GitConflictListQf'), desc = '(q)uickfix list of conflicts' },
   { '<leader>gg', neogit.open, desc = 'status' },
   { '<leader>gs', telescope.git_status, desc = 'Status' },
   { '<leader>gL', telescope.git_bcommits, desc = 'Log for buffer' },

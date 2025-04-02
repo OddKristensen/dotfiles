@@ -1,6 +1,4 @@
 vim.g.mapleader = " "
-vim.keymap.set('v', '<leader>', '<leader>')
--- nvim_del_keymap('v', '<space>')
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 -- Move line below the current one into this one
@@ -34,11 +32,6 @@ vim.keymap.set("i", "<A-Right>", "<Esc>ea")
 vim.keymap.set("i", "<A-Left>", "<Esc>bi")
 vim.keymap.set("i", "<A-Down>", "<Esc>}a")
 vim.keymap.set("i", "<A-Up>", "<Esc>{i")
-
--- CTRL + / should toggle the comments
-vim.api.nvim_set_keymap("i", "<C-/>", '<Cmd>execute "CommentToggle"<CR>', {})
-vim.api.nvim_set_keymap("v", "<C-/>", '<Cmd>execute "\'<,\'>CommentToggle"<CR>', {})
--- vim.keymap.set("vb", "<C-/>", "'<,'>CommentToggle")
 
 -- Escape exits terminal mode
 vim.keymap.set('t', '<ESC>', [[<C-\><C-n>]])
