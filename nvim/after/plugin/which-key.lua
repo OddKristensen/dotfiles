@@ -7,6 +7,7 @@ local gitsigns = require('gitsigns')
 local find_in_project = require('find_in_project')
 local pre_filter_symbols = require('pre_filter_symbols')
 local todo = require("todo-comments")
+local gitsigns_custom = require('git_signs_telescope')
 
 local tableLength = function (t)
   local count = 0
@@ -85,6 +86,8 @@ whichKey.add({
   { '<leader>c>', telescope.lsp_incoming_calls, desc = 'Incoming calls' },
   { '<leader>c<', telescope.lsp_outgoing_calls, desc = 'Outgoing calls' },
 
+  { '<leader>C', command('TodoTelescope'), desc = 'todo (C)omments', },
+
 
   { '<leader>e', group = 'error'  },
   { '<leader>ee', vim.diagnostic.open_float, desc = 'Error' },
@@ -132,9 +135,14 @@ whichKey.add({
   { '<leader>ghn', function() gitsigns.nav_hunk('next') end, desc = '(n)ext hunk' },
   { '<leader>ghp', function() gitsigns.nav_hunk('prev') end, desc = '(p)revious hunk' },
   { '<leader>ghd', gitsigns.reset_hunk, desc = '(d)elete hunk' },
-  { '<leader>ghd', gitsigns.reset_hunk, desc = '(D)elete whole buffer' },
+  { '<leader>ghD', gitsigns.reset_buffer, desc = '(D)elete whole buffer' },
   { '<leader>ghh', gitsigns.preview_hunk, desc = '(p)review hunk' },
   { '<leader>ghq', gitsigns.setqflist, desc = '(Q)uickfix hunks in buffer' },
+  {
+    '<leader>ghl',
+    gitsigns_custom.git_signs_in_telescope,
+    desc = '(l)ist git signs in telescope (from quickfix)',
+  },
   {
     '<leader>ghQ',
     function () gitsigns.setqflist('all') end,

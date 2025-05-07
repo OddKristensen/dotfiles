@@ -124,6 +124,8 @@ return require('packer').startup(function(use)
   use {
     'NeogitOrg/neogit',
     requires = 'nvim-lua/plenary.nvim',
+    -- FIXME: Remove once bug is fixed
+    commit = '81bbefa40a49c1c00a8c31292889b1e078321ecc',
     -- tag = 'v0.0.1',
   }
 
@@ -161,6 +163,13 @@ return require('packer').startup(function(use)
   }
 
   use('simrat39/rust-tools.nvim')
+
+  use('ggandor/leap.nvim')
+
+  -- use({
+  --   'jake-stewart/multicursor.nvim',
+  --    branch = "1.0",
+  -- })
 
   if packer_bootstrap then
     require('packer').sync()

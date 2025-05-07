@@ -20,7 +20,11 @@ cmp.setup({
 -- Example of settings
 metals_config.settings = {
   showImplicitArguments = true,
-  excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+  excludedPackages = {
+    "akka.actor.typed.javadsl",
+    "com.github.swagger.akka.javadsl"
+  },
+  defaultBspToBuildTool = true,
 }
 
 -- *READ THIS*
