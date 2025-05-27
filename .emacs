@@ -10,7 +10,8 @@
 ;;;;;  AUTO INSTALL MY PACKAGES
 (setq my-melpa-packages '(color-theme-sanityinc-tomorrow helm ivy json-mode magit markdown-mode markdown-toc moe-theme projectile
 							 python-mode scala-mode terraform-mode
-							 typescript-mode yaml-mode helm-projectile lsp-mode company lsp-metals doom-modeline nerd-icons rust-mode lua-mode smartparens))
+							 typescript-mode yaml-mode helm-projectile lsp-mode company lsp-metals doom-modeline nerd-icons rust-mode lua-mode smartparens
+							 helm-swoop))
 ;; Fetch list of packages available
 (unless package-archive-contents
   (package-refresh-contents))
@@ -177,6 +178,9 @@
 (global-set-key (kbd "s-<down>") 'end-of-buffer)
 (global-set-key (kbd "s-w") 'delete-window)
 (global-set-key (kbd "s-g") 'magit)
+(global-set-key (kbd "s-f") 'helm-swoop)
+(global-set-key (kbd "s-F") 'helm-projectile-grep)
+(global-set-key (kbd "s-B") 'helm-projectile-switch-to-buffer)
 ;; (global-set-key (kbd "s-/") 'comment-region)
 ;;
 ;; Switch project
@@ -199,11 +203,12 @@
 		 "6fc9e40b4375d9d8d0d9521505849ab4d04220ed470db0b78b700230da0a86c1" default))
  '(package-selected-packages
 	 '(color-theme-sanityinc-tomorrow company company-fuzzy company-mode
-																		doom-modeline helm helm-projectile ivy
-																		json-mode lsp-metals lsp-mode lua-mode magit
-																		markdown-toc moe-theme projectile
-																		python-mode rust-mode scala-mode smartparens
-																		terraform-mode typescript-mode yaml-mode)))
+																		doom-modeline helm helm-projectile
+																		helm-swoop ivy json-mode lsp-metals lsp-mode
+																		lua-mode magit markdown-toc moe-theme
+																		projectile python-mode rust-mode scala-mode
+																		smartparens terraform-mode typescript-mode
+																		yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
