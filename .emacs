@@ -154,6 +154,7 @@
 (setq scroll-margin 8)
 (set-face-attribute 'default nil :height 130)
 (electric-pair-mode t)
+(global-display-line-numbers-mode t)
 
 
 ;; Explictly map file types to modes
