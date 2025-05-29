@@ -10,7 +10,7 @@
 (setq my-melpa-packages '(color-theme-sanityinc-tomorrow helm ivy json-mode magit markdown-mode markdown-toc moe-theme projectile
 							 python-mode scala-mode terraform-mode
 							 typescript-mode yaml-mode helm-projectile lsp-mode company lsp-metals doom-modeline nerd-icons rust-mode lua-mode smartparens
-							 helm-swoop material-theme ace-window winum))
+							 helm-swoop doom-themes material-theme ace-window winum))
 ;; Fetch list of packages available
 (unless package-archive-contents
   (package-refresh-contents))
@@ -170,6 +170,7 @@
 (set-face-attribute 'default nil :height 130)
 (electric-pair-mode t)
 (global-display-line-numbers-mode t)
+(delete-selection-mode t)
 
 
 ;; Explictly map file types to modes
@@ -213,12 +214,17 @@
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(moe-dark))
  '(custom-safe-themes
-	 '("ba4f725d8e906551cfab8c5f67e71339f60fac11a8815f51051ddb8409ea6e5c"
+	 '("7771c8496c10162220af0ca7b7e61459cb42d18c35ce272a63461c0fc1336015"
+     "ba4f725d8e906551cfab8c5f67e71339f60fac11a8815f51051ddb8409ea6e5c"
+		 "3061706fa92759264751c64950df09b285e3a2d3a9db771e99bcbb2f9b470037"
+		 "088cd6f894494ac3d4ff67b794467c2aa1e3713453805b93a8bcb2d72a0d1b53"
+		 "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8"
+		 "4d5d11bfef87416d85673947e3ca3d3d5d985ad57b02a7bb2e32beaf785a100e"
 		 "8899e88d19a37d39c7187f4bcb5bb596fba990728ef963420b93e2aea5d1666a"
 		 "6fc9e40b4375d9d8d0d9521505849ab4d04220ed470db0b78b700230da0a86c1" default))
  '(package-selected-packages
 	 '(color-theme-sanityinc-tomorrow company company-fuzzy company-mode
-																		doom-modeline helm helm-projectile helm-rg
+																		doom-modeline doom-themes helm helm-projectile helm-rg
 																		helm-swoop ivy json-mode lsp-metals lsp-mode
 																		lua-mode magit markdown-toc material-theme
 																		moe-theme projectile python-mode rg ripgrep
