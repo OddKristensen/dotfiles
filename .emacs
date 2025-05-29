@@ -1,4 +1,3 @@
-
 ;; Melpa
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -11,7 +10,7 @@
 (setq my-melpa-packages '(color-theme-sanityinc-tomorrow helm ivy json-mode magit markdown-mode markdown-toc moe-theme projectile
 							 python-mode scala-mode terraform-mode
 							 typescript-mode yaml-mode helm-projectile lsp-mode company lsp-metals doom-modeline nerd-icons rust-mode lua-mode smartparens
-							 helm-swoop))
+							 helm-swoop material-theme ace-window winum))
 ;; Fetch list of packages available
 (unless package-archive-contents
   (package-refresh-contents))
@@ -39,36 +38,51 @@
 
 ;; HELM
 (require 'helm)
+(helm-mode t)
 ;; (require 'helm-config)
 (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-z") #'helm-select-action)
 
-
+(winum-mode t)
 
 ;; Which key
 (require 'which-key)
 (which-key-mode 1)
 
-(defun my/custom-function ()
-  "My cool custom command."
-  (interactive)
-  (message "Hello, Emacs!"))
+(defvar-keymap my-window-prefix-map
+	:doc "Window"
+	"d" #'delete-window
+	"|" #'split-window-right
+	"-" #'split-window-below
+ 	"u" #'delete-other-windows
+	"<right>" #'windmove-right
+	"<down>" #'windmove-down
+	"<left>" #'windmove-left
+	"<up>" #'windmove-up)
 
-(define-prefix-command 'my/custom-map)
-(global-set-key (kbd "C-c m") 'my/custom-map)
-(define-key my/custom-map (kbd "h") 'my/custom-function)
 
-(which-key-add-key-based-replacements
-  "C-c m" "My Custom Commands"
-  "C-c m h" "Say Hello")
+;; Project keymap?
+;; LSP keymap?
+(defvar-keymap my-prefix-map
+	:doc "My Prefix map!"
+  "d" #'dired
+	"1" #'winum-select-window-1
+	"2" #'winum-select-window-2
+	"3" #'winum-select-window-3
+ 	"4" #'winum-select-window-4
+	"5" #'winum-select-window-5
+	"6" #'winum-select-window-6
+	"7" #'winum-select-window-7
+	"8" #'winum-select-window-8
+	"9" #'winum-select-window-9)
 
-(defun my/which-key-show-custom-map ()
-  "Trigger which-key for custom prefix."
-  (interactive)
-  (which-key--create-buffer-and-show (current-global-map) "C-c m"))
+(define-key my-prefix-map (kbd "w") my-window-prefix-map)
+(keymap-set global-map "s-." my-prefix-map)
 
-(global-set-key (kbd "C-SPC") #'my/which-key-show-custom-map)
+(setq which-key-show-early-on-C-h t)
+;; (setq which-key-idle-delay 10000)
+;; (setq which-key-idle-secondary-delay 0.05)
 
 ;; Smartparens
 (require 'smartparens)
@@ -199,15 +213,17 @@
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(moe-dark))
  '(custom-safe-themes
-	 '("8899e88d19a37d39c7187f4bcb5bb596fba990728ef963420b93e2aea5d1666a"
+	 '("ba4f725d8e906551cfab8c5f67e71339f60fac11a8815f51051ddb8409ea6e5c"
+		 "8899e88d19a37d39c7187f4bcb5bb596fba990728ef963420b93e2aea5d1666a"
 		 "6fc9e40b4375d9d8d0d9521505849ab4d04220ed470db0b78b700230da0a86c1" default))
  '(package-selected-packages
 	 '(color-theme-sanityinc-tomorrow company company-fuzzy company-mode
-																		doom-modeline helm helm-projectile
+																		doom-modeline helm helm-projectile helm-rg
 																		helm-swoop ivy json-mode lsp-metals lsp-mode
-																		lua-mode magit markdown-toc moe-theme
-																		projectile python-mode rust-mode scala-mode
-																		smartparens terraform-mode typescript-mode
+																		lua-mode magit markdown-toc material-theme
+																		moe-theme projectile python-mode rg ripgrep
+																		rust-mode scala-mode smartparens
+																		terraform-mode typescript-mode winum
 																		yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
