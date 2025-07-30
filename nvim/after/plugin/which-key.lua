@@ -6,6 +6,7 @@ local neogit = require('neogit')
 local gitsigns = require('gitsigns')
 local find_in_project = require('find_in_project')
 local pre_filter_symbols = require('pre_filter_symbols')
+local grepable_grep = require('grepable_grep')
 local todo = require("todo-comments")
 local gitsigns_custom = require('git_signs_telescope')
 
@@ -122,6 +123,14 @@ whichKey.add({
   { '<leader>gcb', command('GitConflictChooseBoth'), desc = '(b)oth confclits' },
   { '<leader>gcd', command('GitConflictChooseNone'), desc = '(n)either conflict' },
   { '<leader>gcq', command('GitConflictListQf'), desc = '(q)uickfix list of conflicts' },
+  {
+    '<leader>gC',
+    function ()
+      local message = vim.fn.input('Commit message: ')
+      vim.cmd("!git commit -m '" .. message .. "'")
+    end,
+    desc = '(C)ommit',
+  },
   { '<leader>gg', neogit.open, desc = 'status' },
   { '<leader>gs', telescope.git_status, desc = 'Status' },
   { '<leader>gL', telescope.git_bcommits, desc = 'Log for buffer' },
@@ -154,6 +163,18 @@ whichKey.add({
   { '<leader>G', group = 'git/Fugitive' },
   { '<leader>Gg', command('G'), desc = 'Fugitive status' },
 
+  { '<leader>h', group = '(h)elp' },
+  { '<leader>ht', telescope.help_tags, desc = '(t)ags', },
+  {
+    '<leader>hf',
+    function ()
+      telescope.find_files {
+        cwd = vim.fs.joinpath(vim.fn.stdpath('data'), 'lazy')
+      }
+    end,
+    desc = '(h)elp tags',
+  },
+
 
   { '<leader>j', telescope.jumplist, desc = '(J)ump list' },
 
@@ -168,7 +189,8 @@ whichKey.add({
     function() find_in_project.find_in_project() end,
     desc = "Find files in selected project",
   },
-  { '<leader>ps', telescope.live_grep, desc = "Search in files" },
+  { '<leader>ps', grepable_grep.grepable_grep, desc = 'Search in files' },
+  -- { '<leader>ps', telescope.live_grep, desc = "Search in files" },
   { '<leader>pS', telescope.grep_string, desc = 'Search for word under cursor' },
   { '<leader>pc', telescope.grep_string, desc = 'Search for word under cursor' },
   { '<leader>pg', telescope.git_files, desc = "Search git repo" },

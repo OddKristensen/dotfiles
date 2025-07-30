@@ -18,6 +18,8 @@ vim.keymap.set("v", "<S-Down>", ":m '>+1<CR>gv=gv")
 -- Center the line after scrolling
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<PageUp>", "<C-u>")
+vim.keymap.set("n", "<PageDown>", "<C-d>")
 
 -- Resize split
 vim.keymap.set('n', '<A-S-Left>', '5<c-w><')
@@ -35,3 +37,8 @@ vim.keymap.set("i", "<A-Up>", "<Esc>{i")
 
 -- Escape exits terminal mode
 vim.keymap.set('t', '<ESC>', [[<C-\><C-n>]])
+
+-- Do not override the copy register when pasting
+vim.keymap.set('x', 'p', 'P', { noremap = true })
+
+

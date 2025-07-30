@@ -1,7 +1,7 @@
 
-function EnableAllTheNiceColors(color)
-	color = color or "onedark"
-	vim.cmd.colorscheme(color)
-end
+local dark = require('onedark')
+dark.setup {
+  style = 'cool'
+}
+dark.load()
 
-EnableAllTheNiceColors()
