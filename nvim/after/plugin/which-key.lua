@@ -9,6 +9,7 @@ local pre_filter_symbols = require('pre_filter_symbols')
 local grepable_grep = require('grepable_grep')
 local todo = require("todo-comments")
 local gitsigns_custom = require('git_signs_telescope')
+local find_relative = require('relative_project_files')
 
 local tableLength = function (t)
   local count = 0
@@ -189,6 +190,9 @@ whichKey.add({
     function() find_in_project.find_in_project() end,
     desc = "Find files in selected project",
   },
+  { '<leader>pr', function ()
+    find_relative.find_from_file_root { project = '~/projects' }
+  end, desc = 'Find (r)elative to current file', },
   { '<leader>ps', grepable_grep.grepable_grep, desc = 'Search in files' },
   -- { '<leader>ps', telescope.live_grep, desc = "Search in files" },
   { '<leader>pS', telescope.grep_string, desc = 'Search for word under cursor' },
