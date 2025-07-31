@@ -1,7 +1,6 @@
 local pickers = require "telescope.pickers"
 local finders = require "telescope.finders"
 local conf = require("telescope.config").values
-local themes = require("telescope.themes")
 local actions = require("telescope.actions")
 local actions_state = require("telescope.actions.state")
 local scan = require("plenary.scandir")
@@ -43,7 +42,7 @@ end
 
 local M = {
   find_in_project = function ()
-    projects(themes.get_dropdown({}))
+    projects()
   end
 }
 
