@@ -72,7 +72,6 @@ telescope.setup {
       base_dirs = {
         '~/projects',
       },
-      theme = 'dropdown',
     },
   },
   pickers = {
