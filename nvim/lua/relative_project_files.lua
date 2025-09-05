@@ -47,7 +47,8 @@ local function find_from_file_root(opts)
 end
 
 local M = {
-  find_from_file_root = find_from_file_root
+  find_from_file_root = find_from_file_root,
+  project_root = project_root,
 }
 
 return M

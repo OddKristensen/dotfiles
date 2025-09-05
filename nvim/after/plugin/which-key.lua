@@ -10,6 +10,19 @@ local grepable_grep = require('grepable_grep')
 local todo = require("todo-comments")
 local gitsigns_custom = require('git_signs_telescope')
 local find_relative = require('relative_project_files')
+local kill_project_buffers = require('kill_project_buffers')
+local lsp_purge = require('purge_lsp_clients')
+
+local change_project = function ()
+  telescopeBase.extensions.project.project { display_type = 'full' }
+end
+
+local purge_lsp_then = function (fn)
+  return function ()
+    lsp_purge.purge_from_project()
+    fn()
+  end
+end
 
 local tableLength = function (t)
   local count = 0
@@ -73,6 +86,7 @@ whichKey.add({
   { '<leader>cr', telescope.lsp_references, desc = 'Go to references' },
   { '<leader>ci', telescope.lsp_implementations, desc = 'Go to implementation' },
   { '<leader>cc', vim.lsp.buf.hover, desc = 'Characterize type at cursor' },
+  { '<leader>cl', lsp_purge.list_lsp_clients, desc = '(l)ist LSPs for destruction', },
   { '<leader>cs', telescope.lsp_document_symbols, desc = 'Symbols in file' },
   {
     '<leader>cS',
@@ -80,6 +94,7 @@ whichKey.add({
     desc = 'Pre filtered Symbols in file',
   },
   { '<leader>ct', vim.lsp.buf.signature_help, desc = 'Type signature at cursor' },
+  { '<leader>cT', telescope.treesitter, desc = '(T)reesitter' },
   { '<leader>cf', vim.lsp.buf.format, desc = 'Format' },
   { '<leader>ca', vim.lsp.buf.code_action, desc = 'Code action' },
   { '<leader>cn', vim.lsp.buf.rename, desc = 'Rename symbol at cursor' },
@@ -87,9 +102,6 @@ whichKey.add({
   { '<leader>cw', telescope.lsp_dynamic_workspace_symbols, desc = 'Workspace symbols' },
   { '<leader>c>', telescope.lsp_incoming_calls, desc = 'Incoming calls' },
   { '<leader>c<', telescope.lsp_outgoing_calls, desc = 'Outgoing calls' },
-
-  { '<leader>C', command('TodoTelescope'), desc = 'todo (C)omments', },
-
 
   { '<leader>e', group = 'error'  },
   { '<leader>ee', vim.diagnostic.open_float, desc = 'Error' },
@@ -165,7 +177,7 @@ whichKey.add({
   { '<leader>Gg', command('G'), desc = 'Fugitive status' },
 
   { '<leader>h', group = '(h)elp' },
-  { '<leader>ht', telescope.help_tags, desc = '(t)ags', },
+  { '<leader>ht', telescope.help_tags, desc = 'help (t)ags', },
   {
     '<leader>hf',
     function ()
@@ -173,7 +185,7 @@ whichKey.add({
         cwd = vim.fs.joinpath(vim.fn.stdpath('data'), 'lazy')
       }
     end,
-    desc = '(h)elp tags',
+    desc = 'neovim lua (f)iles',
   },
 
 
@@ -184,33 +196,54 @@ whichKey.add({
   { '<leader>nd', '<C-x>', desc = 'Decrement number' },
 
   { '<leader>p', group = '(p)roject' },
+  {
+    '<leader>pc',
+    find_in_project.cwd_to_project,
+    desc = '(c)hange current working directory',
+  },
+  {
+    '<leader>pd',
+    function ()
+      kill_project_buffers.kill_project_buffers {
+        on_closed = lsp_purge.purge_from_project,
+      }
+    end,
+    desc = 'Kill project buffers',
+  },
   { '<leader>pf', telescope.find_files, desc = "Find files" },
   {
     '<leader>pF',
-    function() find_in_project.find_in_project() end,
+    find_in_project.find_in_project,
     desc = "Find files in selected project",
   },
-  { '<leader>pr', function ()
-    find_relative.find_from_file_root { project = '~/projects' }
-  end, desc = 'Find (r)elative to current file', },
+  {
+    '<leader>pr',
+    function ()
+      find_relative.find_from_file_root { project = '~/projects' }
+    end,
+    desc = 'Find (r)elative to current file',
+  },
   { '<leader>ps', grepable_grep.grepable_grep, desc = 'Search in files' },
   -- { '<leader>ps', telescope.live_grep, desc = "Search in files" },
   { '<leader>pS', telescope.grep_string, desc = 'Search for word under cursor' },
-  { '<leader>pc', telescope.grep_string, desc = 'Search for word under cursor' },
+  {
+    '<leader>pt',
+    function()
+      command('tabnew')
+      change_project()
+    end,
+    desc = 'project in (t)ab'
+  },
+  -- TODO: This should just be a cwd picker from projects. Can I use my own custom picker?
+  -- { '<leader>pc', telescope.grep_string, desc = 'Search for word under cursor' },
   { '<leader>pg', telescope.git_files, desc = "Search git repo" },
   { '<leader>pv', vim.cmd.Ex, desc = "Visually do things" },
-  {
-    '<leader>pp',
-    function()
-      telescopeBase.extensions.project.project { display_type = 'full' }
-    end,
-    desc = 'Switch project' ,
-  },
+  { '<leader>pp', change_project, desc = 'Switch project' },
 
 
   { '<leader>q', group = '(q)uit' },
-  { '<leader>qq', command("qa"), desc = "Quit neovim" },
-  { '<leader>qQ', command("qa!"), desc = "Quit neovim forcefully" },
+  { '<leader>qq', purge_lsp_then(command('qa')), desc = "Quit neovim", },
+  { '<leader>qQ', purge_lsp_then(command('qa!')), desc = "Quit neovim forcefully" },
 
 
   { '<leader>s', group = 'search' },
@@ -219,6 +252,9 @@ whichKey.add({
   { '<leader>sr', telescope.resume, desc = 'Resume the most recent search picker' },
   { '<leader>ss', telescope.current_buffer_fuzzy_find, desc = 'Search in current buffer' },
 
+
+  { '<leader>S', group = "Setting", },
+  { '<leader>Sw', command('set wrap!'), desc = 'Toggle line (w)rap', },
 
   { '<leader>T', command('terminal'), desc = '(T)erminal' },
   { '<leader>t', group = '(t)ab' },
