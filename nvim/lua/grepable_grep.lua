@@ -44,7 +44,7 @@ local grepable_grep = function (opts)
   }
 
   pickers.new(opts, {
-    prompt_title = "Grepable (Live) Grep",
+    prompt_title = "Grepable (Live) Grep - (remember `**/foo/**`)",
     debounce = 100,
     finder = finder,
     previewer = conf.grep_previewer(opts),

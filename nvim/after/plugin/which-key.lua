@@ -12,6 +12,9 @@ local gitsigns_custom = require('git_signs_telescope')
 local find_relative = require('relative_project_files')
 local kill_project_buffers = require('kill_project_buffers')
 local lsp_purge = require('purge_lsp_clients')
+local parent = require('parent_directory')
+local copy = require('copy')
+local mygit = require('mygit')
 
 local change_project = function ()
   telescopeBase.extensions.project.project { display_type = 'full' }
@@ -113,6 +116,11 @@ whichKey.add({
   { '<leader>f', group = 'file' },
   { '<leader>fF', command('Oil'), desc = 'File browser (oil)' },
   {
+    '<leader>f<BS>',
+    parent.buffer_parent_dir,
+    desc = 'Parent directory (oil)',
+  },
+  {
     '<leader>ff',
     function()
       telescopeBase.extensions.file_browser.file_browser {
@@ -150,6 +158,7 @@ whichKey.add({
   { '<leader>gl', telescope.git_commits, desc = 'Log for project' },
   { '<leader>gb', telescope.git_branches, desc = 'Branches' },
   { '<leader>gp', command('!git pull -r'), desc = 'Pull' },
+  { '<leader>gP', mygit.create_pr_from_branch, desc = 'create (P)R', },
   { '<leader>gf', command('!git fetch'), desc = 'Fetch' },
   { '<leader>ga', command('!git add -u'), desc = 'Add' },
   { '<leader>gA', command('!git add -A'), desc = 'Add all' },
@@ -268,6 +277,19 @@ whichKey.add({
   { '<leader>tq', command('tabclose'), desc = '(q)uit tab' },
   { '<leader>tt', command('tabnew'), desc = 'New (t)ab' },
 
+
+  { '<leader>y', group = 'yank' },
+  { '<leader>yb', mygit.get_branch_name, desc = '(b)ranch name',  },
+  {
+    '<leader>yf',
+    function () copy.clipboard_current_buf_path('%') end,
+    desc = '(f)ile path',
+  },
+  {
+    '<leader>yF',
+    function () copy.clipboard_current_buf_path('%:p') end,
+    desc = '(F)ile path, absolute',
+  },
 
 
   { '<leader>z', group = '[Z]ystem (because I would never use it)' },

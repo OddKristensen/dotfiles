@@ -33,4 +33,17 @@ end)
 lsp.setup()
 
 lspconfig.ts_ls.setup({})
+lspconfig.rust_analyzer.setup {}
+lspconfig.basedpyright.setup {
+  settings = {
+    basedpyright = {
+      analysis = {
+        diagnosticMode = "openFilesOnly",
+        inlayHints = {
+          callArgumentNames = true
+        }
+      }
+    }
+  }
+}
 
