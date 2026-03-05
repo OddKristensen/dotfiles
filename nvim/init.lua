@@ -1,6 +1,9 @@
 require("oddunarium")
+
 local branch_tail = require('brach_tail')
 local gitsigns_m = require('git_signs_detach')
+
+vim.o.winborder = "rounded"
 
 vim.opt.clipboard:append("unnamed")
 vim.opt.clipboard:append("unnamedplus")
@@ -53,4 +56,22 @@ vim.api.nvim_create_user_command(
     end
   end,
   { nargs = 1 }
+)
+
+-- use `jq` to format JSON files
+-- autocommand FileType json set formatprg=jq
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "json",
+  callback = function()
+    -- TODO: The indentation shoudl ideally be customizable..
+    vim.bo.formatprg = "jq --indent 4"
+  end,
+})
+
+vim.api.nvim_create_user_command(
+  'JqFormat',
+  function (opts)
+    vim.cmd('%!jq .')
+  end,
+  {}
 )

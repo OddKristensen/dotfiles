@@ -58,7 +58,7 @@ local filenameFirst = function (order)
 end
 
 local reversedAndWidePath = {
-  path_display = filenameFirst('reverse'),
+  -- path_display = filenameFirst('reverse'),
   fname_width = 50,
 }
 
@@ -77,7 +77,9 @@ telescope.setup {
   pickers = {
     find_files = {
       follow = true,
-      path_display = filenameFirst(),
+      path_display = {'filename_first'},
+      -- path_display = {'truncate'},
+      -- path_display = filenameFirst(),
     },
     lsp_references = reversedAndWidePath,
     lsp_implementations = reversedAndWidePath,

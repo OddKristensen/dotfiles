@@ -23,7 +23,8 @@ return require('packer').startup(function(use)
   use('nvim-tree/nvim-web-devicons')
 
   use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.3',
+    'nvim-telescope/telescope.nvim',
+    -- tag = '0.1.3',
     -- or                            , branch = '0.1.x',
     requires = { { 'nvim-lua/plenary.nvim' } }
   }
@@ -54,29 +55,31 @@ return require('packer').startup(function(use)
     run = ":MasonUpdate" -- :MasonUpdate updates registry contents
   }
 
-  use {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v2.x',
-    requires = {
-      -- LSP Support
-      { 'neovim/nvim-lspconfig' }, -- Required
-      {
-        -- Optional
-        'williamboman/mason.nvim',
-        run = function()
-          pcall(vim.cmd, 'MasonUpdate')
-        end,
-      },
-      { 'williamboman/mason-lspconfig.nvim' }, -- Optional
+  use { 'neovim/nvim-lspconfig' }
 
-      -- Autocompletion
-      { 'hrsh7th/nvim-cmp' },     -- Required
-      { 'hrsh7th/cmp-nvim-lsp' }, -- Required
-      { 'L3MON4D3/LuaSnip' },     -- Required
-    }
-
-
-  }
+  -- use {
+  --   'VonHeikemen/lsp-zero.nvim',
+  --   branch = 'v2.x',
+  --   requires = {
+  --     -- LSP Support
+  --     { 'neovim/nvim-lspconfig' }, -- Required
+  --     {
+  --       -- Optional
+  --       'williamboman/mason.nvim',
+  --       run = function()
+  --         pcall(vim.cmd, 'MasonUpdate')
+  --       end,
+  --     },
+  --     { 'williamboman/mason-lspconfig.nvim' }, -- Optional
+  --
+  --     -- Autocompletion
+  --     { 'hrsh7th/nvim-cmp' },     -- Required
+  --     { 'hrsh7th/cmp-nvim-lsp' }, -- Required
+  --     { 'L3MON4D3/LuaSnip' },     -- Required
+  --   }
+  --
+  --
+  -- }
 
   -- use({'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }})
   use({
@@ -163,8 +166,6 @@ return require('packer').startup(function(use)
   }
 
   use('simrat39/rust-tools.nvim')
-
-  use('ggandor/leap.nvim')
 
   -- use({
   --   'jake-stewart/multicursor.nvim',

@@ -16,10 +16,14 @@ vim.keymap.set("v", "<S-Up>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", "<S-Down>", ":m '>+1<CR>gv=gv")
 
 -- Center the line after scrolling
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "<PageUp>", "<C-u>")
-vim.keymap.set("n", "<PageDown>", "<C-d>")
+local downCenter = '<C-d>zz'
+local upCenter = '<C-u>zz'
+vim.keymap.set("n", "<C-d>", downCenter)
+vim.keymap.set("n", "<C-u>", upCenter)
+vim.keymap.set("n", "<PageUp>", upCenter)
+vim.keymap.set("n", "<PageDown>", downCenter)
+vim.keymap.set("n", "<S-Up>", upCenter)
+vim.keymap.set("n", "<S-Down>", downCenter)
 
 -- Resize split
 vim.keymap.set('n', '<A-S-Left>', '5<c-w><')

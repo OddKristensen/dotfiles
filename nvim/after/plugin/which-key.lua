@@ -130,6 +130,13 @@ whichKey.add({
     end,
     desc = 'File browser (telescope)',
   },
+  {
+    '<leader>fr',
+    function ()
+      require('oil').open(vim.fn.getcwd())
+    end,
+    desc = '(r)oot directory in oil',
+  },
   { '<leader>fs', telescope.current_buffer_fuzzy_find, desc = 'Search' },
   { '<leader>ft', showTempFiles, desc = "(T)emp files" },
   { '<leader>f=', vim.lsp.buf.format, desc = 'Format the current buffer' },
@@ -160,8 +167,19 @@ whichKey.add({
   { '<leader>gp', command('!git pull -r'), desc = 'Pull' },
   { '<leader>gP', mygit.create_pr_from_branch, desc = 'create (P)R', },
   { '<leader>gf', command('!git fetch'), desc = 'Fetch' },
-  { '<leader>ga', command('!git add -u'), desc = 'Add' },
-  { '<leader>gA', command('!git add -A'), desc = 'Add all' },
+
+  { '<leader>ga', desc = '(a)dd' },
+  { '<leader>gaa', command('!git add -u'), desc = 'Add' },
+  { '<leader>gaA', command('!git add -A'), desc = 'Add all' },
+  {
+    '<leader>ga.',
+    function ()
+      command('!git add ' .. vim.fn.expand('%'))
+    end,
+    desc = 'Add current buffer',
+  },
+
+
   { '<leader>gh', desc = 'Git (h)unk'},
   { '<leader>ghn', function() gitsigns.nav_hunk('next') end, desc = '(n)ext hunk' },
   { '<leader>ghp', function() gitsigns.nav_hunk('prev') end, desc = '(p)revious hunk' },
