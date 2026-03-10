@@ -187,6 +187,7 @@ whichKey.add({
   { '<leader>ghD', gitsigns.reset_buffer, desc = '(D)elete whole buffer' },
   { '<leader>ghh', gitsigns.preview_hunk, desc = '(p)review hunk' },
   { '<leader>ghq', gitsigns.setqflist, desc = '(Q)uickfix hunks in buffer' },
+  { '<leader>ght', MiniDiff.toggle_overlay, desc = '(t)oggle diff overlay' },
   {
     '<leader>ghl',
     gitsigns_custom.git_signs_in_telescope,

@@ -172,9 +172,10 @@ return require('packer').startup(function(use)
   --    branch = "1.0",
   -- })
 
-  use('eldritch-theme/eldritch.nvim')
-  use('marko-cerovac/material.nvim')
-  use('ribru17/bamboo.nvim')
+  use {
+    'nvim-mini/mini.nvim',
+    branch = 'stable',
+  }
 
   if packer_bootstrap then
     require('packer').sync()
