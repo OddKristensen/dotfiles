@@ -62,6 +62,70 @@ local reversedAndWidePath = {
   fname_width = 50,
 }
 
+-- Helm-style sorter: spaces match any sequence of characters
+local function helm_sorter()
+  local fzy = require('telescope.algos.fzy')
+  local sorters = require('telescope.sorters')
+
+  return sorters.Sorter:new {
+    scoring_function = function(_, prompt, line)
+      if prompt == '' then
+        return 0
+      end
+
+      -- If no spaces, use regular fzy scoring (fast path)
+      if not prompt:find('%s') then
+        return fzy.score(prompt, line) or -1
+      end
+
+      -- Split prompt into words
+      local words = {}
+      for word in prompt:gmatch('%S+') do
+        table.insert(words, word)
+      end
+
+      -- Quick regex pre-filter: check if all words exist in order
+      -- Build a pattern like "conver.*spanner.*main"
+      local pattern = table.concat(vim.tbl_map(function(w)
+        return vim.pesc(w:lower())
+      end, words), '.*')
+
+      if not line:lower():find(pattern) then
+        return -1
+      end
+
+      -- Now do detailed fzy scoring
+      local pos = 1
+      local total_score = 0
+
+      for _, word in ipairs(words) do
+        local remaining = line:sub(pos)
+        local score = fzy.score(word, remaining)
+
+        if not score or score == -1/0 then
+          return -1
+        end
+
+        -- Find the actual position where the word matched
+        local positions = fzy.positions(word, remaining)
+        if positions and #positions > 0 then
+          pos = pos + positions[#positions]
+          total_score = total_score + score
+        else
+          return -1
+        end
+      end
+
+      -- Average the scores
+      return total_score / #words
+    end,
+
+    highlighter = function(_, prompt, display)
+      return fzy.positions(prompt, display)
+    end,
+  }
+end
+
 telescope.setup {
   defaults = {
     layout_strategy = 'vertical',

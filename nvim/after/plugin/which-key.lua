@@ -78,6 +78,7 @@ whichKey.add({
   { '<leader>bb', telescope.buffers, desc = 'Buffers' },
   { '<leader>bd', command('bd'), desc = 'Delete current buffer' },
   { '<leader>bf', telescope.oldfiles, desc = 'Files' },
+  { '<leader>bg', telescope.git_status, desc = '(G)it buffers' },
   { '<leader>bl', showTempFiles, desc = "(L)ist temp files" },
   { '<leader>bs', command('vnew'), desc = '(s)cratch up a new buffer vertically' },
   { '<leader>bS', command('new'), desc = '(S)cratch up a new buffer horizontally' },
@@ -161,11 +162,15 @@ whichKey.add({
   },
   { '<leader>gg', neogit.open, desc = 'status' },
   { '<leader>gs', telescope.git_status, desc = 'Status' },
+  { '<leader>gu', mygit.print_unstaged_and_untracked, desc = '(u)nstaged/untracked files' },
   { '<leader>gL', telescope.git_bcommits, desc = 'Log for buffer' },
   { '<leader>gl', telescope.git_commits, desc = 'Log for project' },
   { '<leader>gb', telescope.git_branches, desc = 'Branches' },
   { '<leader>gp', command('!git pull -r'), desc = 'Pull' },
-  { '<leader>gP', mygit.create_pr_from_branch, desc = 'create (P)R', },
+  { '<leader>gP', group = '(P)ush/PR' },
+  { '<leader>gPr', mygit.create_pr_from_branch, desc = 'Create P(R) from branch', },
+  { '<leader>gPp', function() mygit.commit_push_and_pr({ create_pr = false }) end, desc = 'Commit and (p)ush', },
+  { '<leader>gPP', function() mygit.commit_push_and_pr({ create_pr = true }) end, desc = 'Commit, push, and create (P)R', },
   { '<leader>gf', command('!git fetch'), desc = 'Fetch' },
 
   { '<leader>ga', desc = '(a)dd' },
@@ -309,6 +314,26 @@ whichKey.add({
     function () copy.clipboard_current_buf_path('%:p') end,
     desc = '(F)ile path, absolute',
   },
+  {
+    '<leader>yn',
+    function () copy.clipboard_current_buf_path('%:t') end,
+    desc = 'file (n)ame only',
+  },
+  {
+    '<leader>yd',
+    function () copy.clipboard_current_buf_path('%:h:t') end,
+    desc = '(d)irectory name',
+  },
+  {
+    '<leader>yh',
+    function () copy.clipboard_current_buf_path('%:.:h') end,
+    desc = 'directory path (h)ead, relative',
+  },
+  {
+    '<leader>yD',
+    function () copy.clipboard_current_buf_path('%:p:h') end,
+    desc = '(D)irectory path, absolute',
+  },
 
 
   { '<leader>z', group = '[Z]ystem (because I would never use it)' },
@@ -341,4 +366,8 @@ whichKey.add({
   { '<leader>//', command(':TodoTelescope'), desc = 'List TODO comments', },
   { '<leader>/n', todo.jump_next, desc = 'Next TODO comment', },
   { '<leader>/p', todo.jump_prev, desc = 'Previous TODO comment', },
+})
+
+whichKey.setup({
+  delay = 100
 })

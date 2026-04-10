@@ -102,10 +102,10 @@ return require('packer').startup(function(use)
 
   use({
     "folke/which-key.nvim",
-    config = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 100
-    end
+    -- config = function()
+    --   vim.o.timeout = true
+    --   vim.o.timeoutlen = 100
+    -- end
   })
 
   use {

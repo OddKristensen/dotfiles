@@ -8,6 +8,10 @@ vim.o.winborder = "rounded"
 vim.opt.clipboard:append("unnamed")
 vim.opt.clipboard:append("unnamedplus")
 
+-- Not sure why these are needed...
+vim.o.timeout = true
+vim.o.timeoutlen = 1000
+
 -- Highlight copied text
 vim.cmd([[
   au TextYankPost * silent! lua vim.highlight.on_yank()
