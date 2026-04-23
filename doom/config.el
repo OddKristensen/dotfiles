@@ -32,7 +32,9 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
+;; (setq doom-theme 'doom-material)
 (setq doom-theme 'doom-vibrant)
+;; (setq doom-theme 'one-dark)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -114,3 +116,182 @@
       ;; "wu" #'evil-command-window-execute
       ;; "wU" #'winner-undo
       )
+
+(setq doom-modeline-buffer-file-name-style 'truncate-all)
+
+;; Extended keybindings to match Neovim setup
+(map! :leader
+      ;; Buffer operations (matching <leader>b)
+      :prefix ("b" . "buffer")
+      ;; "b" #'consult-buffer  ; or persp-switch-to-buffer
+      ;; "d" #'kill-this-buffer
+      ;; "f" #'consult-recent-file
+      ;; "s" #'evil-window-vsplit
+      ;; "S" #'evil-window-split
+      ;; "n" #'evil-buffer-new
+
+      ;; Code operations (extending existing <leader>c)
+      :prefix ("c" . "code")
+      "d" #'+lookup/definition
+      "i" #'+lookup/implementations
+      "c" #'+lookup/documentation
+      "s" #'consult-lsp-symbols
+      "t" #'lsp-ui-doc-glance
+      "a" #'lsp-execute-code-action
+      "w" #'lsp-ivy-workspace-symbol
+
+      ;; File operations (matching <leader>f)
+      :prefix ("f" . "file")
+      "F" #'dired-jump
+      "f" #'find-file
+      "r" #'projectile-recentf
+      "s" #'consult-line
+
+      ;; Git operations (matching <leader>g)
+      :prefix ("g" . "git")
+      ;; "g" #'magit-status
+      ;; "s" #'magit-status
+      "l" #'magit-log-buffer-file
+      "L" #'magit-log-current
+      ;; "b" #'magit-branch-checkout
+      "p" #'magit-pull-from-upstream
+      "P" #'magit-push
+      "f" #'magit-fetch
+
+      ;; Git hunks (matching <leader>gh)
+      :prefix ("gh" . "hunk")
+      "n" #'git-gutter:next-hunk
+      "p" #'git-gutter:previous-hunk
+      "d" #'git-gutter:revert-hunk
+      "h" #'git-gutter:popup-hunk
+      "s" #'git-gutter:stage-hunk
+
+      ;; Git add (matching <leader>ga)
+      :prefix ("ga" . "add")
+      "a" #'magit-stage-modified
+      "A" #'magit-stage-all
+      "." #'magit-stage-file
+
+      ;; Help (matching <leader>h)
+      :prefix ("h" . "help")
+      "t" #'helpful-at-point
+
+      ;; Project operations (matching <leader>p)
+      :prefix ("p" . "project")
+      "f" #'projectile-find-file
+      "s" #'consult-ripgrep
+      "S" #'+default/search-project-for-symbol-at-point
+      "g" #'consult-git-grep
+      "p" #'projectile-switch-project
+      "q" #'projectile-kill-buffers
+
+      ;; Quit operations (matching <leader>q)
+      ;; :prefix ("q" . "quit")
+      ;; "q" #'save-buffers-kill-terminal
+      ;; "Q" #'evil-quit-all
+
+      ;; Search operations (matching <leader>s)
+      :prefix ("s" . "search")
+      ;; "c" already bound to clear highlight (sc)
+      "s" #'consult-line
+      ;; "r" #'vertico-repeat
+
+      ;; Tab operations (matching <leader>t)
+      ;; :prefix ("t" . "tab")
+      ;; "t" #'tab-new
+      ;; "n" #'tab-next
+      ;; "p" #'tab-previous
+      ;; "q" #'tab-close
+      ;; "1" #'tab-select-1
+      ;; "2" #'tab-select-2
+      ;; "3" #'tab-select-3
+
+      ;; Additional window operations
+      :prefix ("w" . "window")
+      "u" #'delete-other-windows
+      "=" #'balance-windows
+      "3" #'(lambda () (interactive) (split-window-right) (split-window-right) (balance-windows))
+
+      ;; Yank operations (matching <leader>y)
+      :prefix ("y" . "yank")
+      "f" #'(lambda () (interactive)
+              (kill-new (buffer-file-name))
+              (message "Copied: %s" (buffer-file-name)))
+      "F" #'(lambda () (interactive)
+              (kill-new (abbreviate-file-name (buffer-file-name)))
+              (message "Copied: %s" (abbreviate-file-name (buffer-file-name))))
+      )
+
+;; Non-leader keybindings from remap.lua
+
+;; Center line after search navigation (n and N)
+;; (defun my/center-after-search ()
+;;   "Recenter after search."
+;;   (recenter))
+
+(advice-add 'evil-ex-search-next :after #'recenter)
+(advice-add 'evil-ex-search-previous :after #'recenter)
+
+;; Also center for incremental search
+(map! :n "n" #'(lambda () (interactive) (evil-ex-search-next) (recenter))
+      :n "N" #'(lambda () (interactive) (evil-ex-search-previous) (recenter)))
+
+;; Move visual selection up/down with Shift-Up/Down using drag-stuff
+(use-package! drag-stuff
+  :config
+  (drag-stuff-global-mode 1)
+  (drag-stuff-define-keys))
+
+(map! :v "S-<up>" #'drag-stuff-up
+      :v "S-<down>" #'drag-stuff-down)
+
+;; Scroll commands with centering (C-d, C-u, PageUp/Down, Shift-Up/Down)
+;; (defun my/scroll-down-center ()
+;;   "Scroll down half page and center."
+;;   (interactive)
+;;   (evil-scroll-down 0)
+;;   (recenter))
+
+;; (defun my/scroll-up-center ()
+;;   "Scroll up half page and center."
+;;   (interactive)
+;;   (evil-scroll-up 0)
+;;   (recenter))
+
+(map! ;; :n "C-d" #'my/scroll-down-center
+      ;; :n "C-u" #'my/scroll-up-center
+      ;; :n "<next>" #'my/scroll-down-center   ; PageDown
+      ;; :n "<prior>" #'my/scroll-up-center    ; PageUp
+      ;; :n "S-<down>" #'my/scroll-down-center
+      ;; :n "S-<up>" #'my/scroll-up-center
+      :n "M-<left>" #'evil-backward-word-end
+      :n "M-<right>" #'evil-forward-word-end
+      :n "M-<down>" #'scroll-up ; Alt/Option-Down
+      :n "M-<up>" #'scroll-down)    ; Alt/Option-Up
+
+;; Resize splits with Alt-Shift-Arrows
+(map! :n "M-S-<left>" #'(lambda () (interactive) (evil-window-decrease-width 5))
+      :n "M-S-<right>" #'(lambda () (interactive) (evil-window-increase-width 5))
+      :n "M-S-<up>" #'(lambda () (interactive) (evil-window-increase-height 5))
+      :n "M-S-<down>" #'(lambda () (interactive) (evil-window-decrease-height 5)))
+
+;; Alt-Arrow word/paragraph navigation
+;; (map! :n "M-<right>" #'evil-forward-word-end
+;;       :i "M-<right>" #'(lambda () (interactive) (forward-word) (forward-char))
+;;       :i "M-<left>" #'backward-word
+;;       :i "M-<down>" #'forward-paragraph
+;;       :i "M-<up>" #'backward-paragraph)
+
+;; Escape exits terminal mode (vterm)
+;; (after! vterm
+;;   (define-key vterm-mode-map (kbd "<escape>") #'vterm-send-escape))
+;; Paste in visual mode without overriding register
+(after! evil
+
+  (define-key evil-visual-state-map "p" #'evil-paste-before))
+
+(set-frame-font "JetBrainsMonoNL Nerd Font Mono" nil t)
+
+
+(setq tab-always-indent nil)
+
