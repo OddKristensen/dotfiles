@@ -133,6 +133,17 @@ whichKey.add({
   },
   {
     '<leader>fr',
+    function()
+      local current_cwd = vim.fn.expand('%:p:h')
+      local modified_cwd = current_cwd:gsub('^oil://', '')
+      telescope.find_files {
+        cwd = modified_cwd,
+      }
+    end,
+    desc = 'File browser in current (d)irectory (telescope)',
+  },
+  {
+    '<leader>fR',
     function ()
       require('oil').open(vim.fn.getcwd())
     end,
@@ -254,7 +265,7 @@ whichKey.add({
     function ()
       find_relative.find_from_file_root { project = '~/projects' }
     end,
-    desc = 'Find (r)elative to current file',
+    desc = 'Find (r)elative to file\'s project root directory',
   },
   { '<leader>ps', grepable_grep.grepable_grep, desc = 'Search in files' },
   -- { '<leader>ps', telescope.live_grep, desc = "Search in files" },
@@ -354,6 +365,14 @@ whichKey.add({
   { '<leader>w1', function() vim.cmd(':only') end, desc = 'Unify all windows' },
   { '<leader>wu', command(':only'), desc = 'Unify all windows' },
   { '<leader>w=', '<C-W>=', desc = 'Re-Balence all windows to have equal width and height' },
+
+  { '<leader>wr', group = "window (r)otate" },
+  { '<leader>wrr', '<C-W>r', desc = 'Rotate window to the right' },
+  { '<leader>wr<Right>', '<C-W>r', desc = 'Rotate window to the right' },
+  { '<leader>wrl', '<C-W>R', desc = 'Rotate window to the left' },
+  { '<leader>wr<Left>', '<C-W>R', desc = 'Rotate window to the left' },
+  { '<leader>wrs', '<C-W>X', desc = 'Swap with next window' },
+
 
 
   { '<leader>W', group = "(W)indow" },
